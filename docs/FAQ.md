@@ -1,0 +1,75 @@
+# Quaestio Socratica：技术与使用 FAQ
+
+[中文](FAQ.md) · [English](FAQ_EN.md)
+
+主 README 只讲学习体验和开始方法。这里集中回答格式兼容、隐私、来源与维护问题。
+
+## 普通学习者需要安装 Python 吗？
+
+不需要。复制 `starter-course`，用 Codex、Claude Code 或 Cursor 打开整个文件夹，然后告诉 Agent 使用本地 Quaestio Socratica skill 即可。
+
+仓库中的 Python 脚本只是可选的确定性辅助工具，方便课程维护者批量初始化、检查文件约定或重复生成 mind map。学习者不必运行它们，Agent 也不应为了开始课程而安装 Python。
+
+## PDF、PPTX 和 Notebook 怎么办？
+
+许多 Agent 可以直接读取 PDF、PPT/PPTX、图片、代码和 Notebook。初始化时，Agent 会先盘点资料并优先使用已有能力。
+
+如果当前环境无法可靠解析某种必要格式，Agent 必须先说明：
+
+1. 哪个文件目前无法读取；
+2. 缺少什么能力或软件包；
+3. 安装会改变什么。
+
+只有得到明确同意后才能安装。无法解析的资料会被标记为暂未覆盖，不会被悄悄猜测或伪造。
+
+## 一定要带完整教材吗？
+
+不需要。系统支持三种起点：
+
+- 完整课程资料；
+- 少量、不完整、过时或含错误的资料；
+- zero-shot：只有主题、受众和学习目标。
+
+对于后两种情况，Agent 默认可联网补充资料，优先使用官方文档、标准、原始论文和权威来源。重要冲突、推断和修订会留在课程记录中。
+
+## 为什么课程不能立刻开讲？
+
+为了防止知识路线在长对话中漂移，系统先把标准课程预编译成知识图谱、固定 checkpoints、学习材料和练习。课程设计者或学习者需要明确说“通过”或 “approved”，正式教学才会开始。
+
+批准后，标准路线保持稳定；个人路线仍可根据先验知识、错误、兴趣和实际任务调整。
+
+## 来源和日期会不会塞满笔记？
+
+不会。稳定知识的来源保留在 Agent 可查的资料层，不必不断打断学习者。强时效性内容——例如当前 SOTA 模型、法律规则、产品能力或市场数据——会在学习材料中标明来源与检索日期。
+
+## 课程资料中的恶意提示会被执行吗？
+
+不会。讲义、网页、代码注释、Notebook 单元格和检索结果都只被视为“不可信的课程内容”，不能覆盖 skill 的规则，也不能授权 Agent 泄露秘密、执行命令、安装软件或联系外部人员。
+
+## 学习数据保存在哪里？
+
+学习状态保存在课程文件夹的 Markdown 和 CSV 中，包括学前画像、节点状态、checkpoint 小结、个性化路线变化与 callback。默认不保存原始对话，也不需要数据库。
+
+## 可以中途更换 Agent 吗？
+
+文件状态是可迁移的，所以更换 Agent 通常可以继续；但一个未完成 checkpoint 的细节依赖当前对话。最佳体验是在同一个 Agent 对话中完成本 checkpoint，并在固定存档点退出。
+
+## 中英文如何工作？
+
+中文和英文都是默认支持语言。第一次学习对话使用哪种语言，课程就以哪种语言继续；英文或拉丁文专业术语在更精确时会保留。结课生成 Cornell 笔记和 mind map 前，Agent 会询问是否需要另一语言或双语版本。
+
+## HTML mind map 为什么不使用在线图库？
+
+最终 map 是一个完全离线的单文件：课程主题位于中心，checkpoint 是主分支，知识节点是次级主题，并以 CSS 绘制连接线。它不加载 CDN、在线字体、分析脚本或远程图片，因此便于分发、长期保存和私密使用。
+
+## 课程维护者有哪些可选命令？
+
+下面内容只面向希望自动化检查的维护者；普通学习者可以忽略。
+
+```bash
+python3 quaestio-socratica/scripts/init_course.py my-course --title "My Course"
+python3 quaestio-socratica/scripts/validate_course.py my-course --phase template
+python3 quaestio-socratica/scripts/build_mindmap.py my-course
+```
+
+初始化脚本拒绝覆盖非空目录。验证器可检查 `template`、`compiled` 和 `final` 三个阶段。所有脚本只使用 Python 标准库。

@@ -1,0 +1,11 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+
+# Generated learner outputs remain local unless intentionally published.
+**/outputs/personalized-cornell-notes*.md
+**/outputs/personalized-mindmap*.html

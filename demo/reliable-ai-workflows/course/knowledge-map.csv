@@ -1,0 +1,9 @@
+node_id,title,parent_ids,checkpoint_id,core,estimated_minutes,learning_outcome,evidence,source_ids
+N01,Prompt versus workflow,,CP01,true,20,"Distinguish a single probabilistic response from a repeatable workflow and an autonomous agent","Classify three scenarios and justify the boundary",S01;S05
+N02,Outcome contract,N01,CP01,true,25,"Define success failure and acceptable uncertainty before changing prompts","Write an observable outcome contract for one task",S02;S05
+N03,Decompose and route,N02,CP01,true,30,"Split a task into steps and route distinct input classes without needless complexity","Draw a minimal sequence with at least one justified branch",S01;S05
+N04,Gates and human approval,N02;N03,CP01,true,25,"Place deterministic checks stopping conditions and human decisions at consequential boundaries","Choose gates for a failure scenario and explain why each is deterministic or human",S01;S03;S04;S05
+N05,Grounding tools and memory,N03;N04,CP02,true,25,"Choose data retrieval tools or memory only when they reduce a named uncertainty","Match augmentations to four failure modes and reject one unnecessary augmentation",S01;S05
+N06,Failure modes and least privilege,N04;N05,CP02,true,25,"Identify compounding error indirect prompt injection and excessive agency","Threat-model one workflow and reduce permissions without breaking its outcome",S03;S04;S05
+N07,Evaluate outcomes,N05;N06,CP02,true,30,"Create representative tasks criteria and graders that measure durable outcomes rather than fluent traces","Draft three test cases including one failure case and an outcome-based oracle",S02;S03;S05
+N08,Reliable workflow canvas,N02;N03;N04;N05;N06;N07,CP02,true,20,"Synthesize a bounded inspectable workflow for a real task","Present a workflow canvas with outcome inputs steps gates permissions evals and stop conditions",S01;S02;S03;S04;S05

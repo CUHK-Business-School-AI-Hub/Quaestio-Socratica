@@ -1,0 +1,6 @@
+source_id,title,kind,location,provenance,authority,time_sensitive,retrieved_on,used_for,notes
+S01,Building Effective AI Agents,web,https://www.anthropic.com/engineering/building-effective-agents,external,official vendor engineering guidance,true,2026-07-26,"workflow vs agent; composable patterns; gates; tools; human checkpoints","Published 2024-12-19; patterns may evolve"
+S02,Working with evals,web,https://developers.openai.com/api/docs/guides/evals,external,official product documentation,true,2026-07-26,"task definition; test inputs; results and iteration","API details can change"
+S03,NIST AI RMF Generative AI Profile,standard,https://doi.org/10.6028/NIST.AI.600-1,external,official public standard profile,true,2026-07-26,"risk lifecycle; trustworthy and responsible AI framing","Published 2024; NIST page updated 2026-04-08"
+S04,OWASP LLM01 Prompt Injection,web,https://genai.owasp.org/llmrisk/llm01-prompt-injection/,external,open security guidance,true,2026-07-26,"indirect prompt injection; least privilege; approval; segregation","2025 risk taxonomy; guidance can change"
+S05,Workflow design canvas and examples,course artifact,course/tutor-materials/,ai-synthesis,instructor synthesis,false,,"diagnostics; examples; capstone","Original pedagogical synthesis; not an external authority"

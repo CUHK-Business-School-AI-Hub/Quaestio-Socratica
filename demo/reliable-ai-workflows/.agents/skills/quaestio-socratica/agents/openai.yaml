@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quaestio Socratica"
+  short_description: "Build a course and learn by guided discovery"
+  default_prompt: "Use $quaestio-socratica / 使用 $quaestio-socratica，根据这个文件夹里的资料或我的学习目标建立课程，并通过有边界的苏格拉底对话开始学习。"
