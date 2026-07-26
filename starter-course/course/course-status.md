@@ -8,6 +8,6 @@
 - First dialogue language: unselected
 - Approved by:
 - Approved on:
-- Created on: 2026-07-26
+- Created on: unset
 
 The course must be compiled and explicitly approved before teaching.

@@ -130,6 +130,10 @@ AI 会先整理出完整课程路线。只有你明确说“通过”，正式�
 
 这些不会打断第一次学习体验。需要时再读 [技术与使用 FAQ](docs/FAQ.md)。
 
+## 许可证
+
+Python 脚本（`quaestio-socratica/scripts/` 及各课程内嵌的脚本副本）使用 [MIT](LICENSE-MIT) 许可；其余内容——skill 指令、参考文档、课程模板、starter 课程、示例课与文档——使用 [CC BY 4.0](LICENSE-CC-BY-4.0) 许可。复制、改编、分发你的课程时，请保留署名。
+
 ---
 
 <div align="center">

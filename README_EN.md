@@ -130,6 +130,10 @@ The same method can serve undergraduate, master's, PhD, EMBA, and DBA learners, 
 
 Those details should not interrupt your first learning experience. Read the [technical and usage FAQ](docs/FAQ_EN.md) when you need them.
 
+## License
+
+The Python scripts (`quaestio-socratica/scripts/` and the script copies embedded in each course) are licensed under [MIT](LICENSE-MIT). Everything else—the skill instructions, references, course template, starter course, demo course, and documentation—is licensed under [CC BY 4.0](LICENSE-CC-BY-4.0). Keep the attribution when you copy, adapt, or distribute your courses.
+
 ---
 
 <div align="center">

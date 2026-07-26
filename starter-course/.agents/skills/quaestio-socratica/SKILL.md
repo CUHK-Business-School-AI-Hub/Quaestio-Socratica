@@ -87,7 +87,13 @@ Do not generate grades, certificates, or claims of mastery unsupported by the re
 
 ## Use the bundled resources
 
-- `scripts/init_course.py`: optional helper that creates a safe, self-contained workspace without overwriting existing content.
 - `scripts/validate_course.py`: optional helper that validates `template`, `compiled`, or `final` lifecycle contracts.
 - `scripts/build_mindmap.py`: optional helper that builds a single-file offline spatial mindmap from course and learner CSV state.
-- `assets/course-template/`: canonical portable workspace structure.
+- `scripts/init_course.py`: optional helper that creates a safe, self-contained workspace without overwriting existing content. Full skill distribution only.
+- `assets/course-template/`: canonical portable workspace structure. Full skill distribution only.
+
+Copies of this skill embedded inside a course workspace omit the last two
+resources on purpose; a workspace never needs to re-create itself. To create
+another course workspace without them, copy and rename the published
+starter course, or reproduce the template files listed in
+[artifact-contracts.md](references/artifact-contracts.md).

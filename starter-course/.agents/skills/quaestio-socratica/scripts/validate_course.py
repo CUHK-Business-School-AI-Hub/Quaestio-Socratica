@@ -55,6 +55,37 @@ NODE_STATUS = {
 TERMINAL_STATUS = {"mastered", "self_reported", "forced_skip", "needs_review"}
 COMPILED_LIFECYCLES = {"approved", "learning", "completed"}
 
+# The mindmap must stay a single offline file. Flag constructs that load
+# external resources, not plain URLs quoted inside learner-visible text
+# (citations with links are legitimate and required for time-sensitive
+# claims).
+MINDMAP_NETWORK_CHECKS = [
+    (
+        "a script loaded from a file or URL",
+        re.compile(r"<script\b[^>]*\bsrc\s*=", re.IGNORECASE),
+    ),
+    (
+        "a stylesheet, font, icon, or other linked resource",
+        re.compile(r"<link\b[^>]*\bhref\s*=\s*[\"']?\s*(?!data:)", re.IGNORECASE),
+    ),
+    (
+        "an image, frame, or media file loaded from a file or URL",
+        re.compile(
+            r"<(?:img|iframe|audio|video|source|track|embed|object)\b"
+            r"[^>]*\b(?:src|srcset|poster|data)\s*=\s*[\"']?\s*(?!data:)",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "a CSS url() reference to a file or URL",
+        re.compile(r"\burl\(\s*[\"']?\s*(?!data:|#)", re.IGNORECASE),
+    ),
+    (
+        "a CSS @import",
+        re.compile(r"@import\b", re.IGNORECASE),
+    ),
+]
+
 REQUIRED_TEMPLATE_FILES = [
     "AGENTS.md",
     "CLAUDE.md",
@@ -302,8 +333,11 @@ def validate_final(root: Path, state: dict[str, object], errors: list[str]) -> N
         lowered = html.lower()
         if "<!doctype html>" not in lowered or "<style" not in lowered or "<script" not in lowered:
             errors.append("mindmap must be a complete single-file HTML document")
-        if re.search(r"(?:https?:)?//", html, flags=re.IGNORECASE):
-            errors.append("mindmap contains a network-dependent URL")
+        for description, pattern in MINDMAP_NETWORK_CHECKS:
+            if pattern.search(html):
+                errors.append(
+                    f"mindmap must be offline and self-contained; found {description}"
+                )
 
 
 def validate(root: Path, phase: str) -> list[str]:
