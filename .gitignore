@@ -9,3 +9,5 @@ __pycache__/
 # Generated learner outputs remain local unless intentionally published.
 **/outputs/personalized-cornell-notes*.md
 **/outputs/personalized-mindmap*.html
+
+test_SOW.md
