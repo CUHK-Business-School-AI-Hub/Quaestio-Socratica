@@ -58,6 +58,10 @@ The file state is portable, so another capable agent can usually continue. Howev
 
 Chinese and English are equal defaults. The language of the first learning dialogue becomes the course language, while precise English or Latin terminology may be preserved. Before generating final Cornell notes and the mindmap, the agent asks whether another language or bilingual output is wanted.
 
+## Do the three questioning styles change course difficulty?
+
+No. Friendly (default), strict, and humorous change feedback tone and follow-up pressure, not the knowledge route, correctness standard, acceptable evidence, or checkpoint rules. Strict style explicitly resolves every detected reasoning gap without questioning forever. Humorous style may tease a mistaken claim or play along with a correct but nonstandard expression, but it never replaces correction with a joke or makes the learner the target.
+
 ## Why does the HTML mindmap avoid online libraries?
 
 The final map is a fully offline single file. The course sits at the center, checkpoints form primary branches, knowledge nodes form secondary topics, and CSS draws the connectors. It loads no CDN, online font, analytics, or remote image, making it easy to distribute, preserve, and use privately.

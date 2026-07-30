@@ -15,3 +15,4 @@ Complete after the two- or three-round pre-learning survey.
 - First dialogue language:
 - Fixed tutor mode:
 - Tutor selection:
+- Fixed tutor style: friendly

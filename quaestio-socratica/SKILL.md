@@ -25,7 +25,7 @@ Turn a general coding agent and a local folder into a one-to-one Socratic course
 
    - `draft` or `compiling`: read [course-compiler.md](references/course-compiler.md) and [quality-and-sources.md](references/quality-and-sources.md).
    - `awaiting_approval`: present the compiled course brief, route, risks, assumptions, and material changes; require an explicit human approval.
-   - `approved` or `learning`: read [teaching-runtime.md](references/teaching-runtime.md) and [tutor-modes.md](references/tutor-modes.md).
+   - `approved` or `learning`: read [teaching-runtime.md](references/teaching-runtime.md), [tutor-modes.md](references/tutor-modes.md), and [tutor-styles.md](references/tutor-styles.md).
    - `completed`: follow the closing procedure in [teaching-runtime.md](references/teaching-runtime.md).
    - When creating or validating files, read [artifact-contracts.md](references/artifact-contracts.md).
    - When creating the final visual map, read [mindmap-contract.md](references/mindmap-contract.md).
@@ -44,8 +44,9 @@ Never teach a new compiled course before a human explicitly approves it, even if
 
 - Finish the pre-learning survey in two or three dialogue rounds. Capture work role, typical tasks, prior knowledge, tools, goals, available time, and desired theory/math/code depth.
 - Treat Chinese and English as equal default languages. Use the language of the learner’s first dialogue unless they explicitly choose the other. Preserve English or Latin technical terms when disciplinary precision benefits.
-- Fix one tutor mode before teaching: `course-mentor` or `immersive`. Do not switch mid-course.
+- Fix one tutor mode before teaching: `course-mentor` or `immersive`. Also fix one questioning style: `friendly` (default), `strict`, or `humorous`. Do not switch either mid-course.
 - In immersive mode use one to three original tutors. Never create romance progression, flirting rewards, or numerical affinity.
+- Questioning style changes tone and follow-up pressure, never evidence standards, factual content, checkpoint rules, or the learner's right to request a direct explanation and force a recorded skip.
 - Advance one cognitive move at a time. A brief clarification may accompany the main question.
 - After a wrong or stalled answer, escalate once through: rephrase → small hint → broken-down scaffold → direct explanation. Do not trap the learner in endless guessing.
 - Answer learner-initiated questions fully, then use one new question to return to the route.

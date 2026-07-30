@@ -54,6 +54,7 @@ NODE_STATUS = {
 }
 TERMINAL_STATUS = {"mastered", "self_reported", "forced_skip", "needs_review"}
 COMPILED_LIFECYCLES = {"approved", "learning", "completed"}
+TUTOR_STYLES = {"friendly", "strict", "humorous"}
 
 # The mindmap must stay a single offline file. Flag constructs that load
 # external resources, not plain URLs quoted inside learner-visible text
@@ -173,6 +174,32 @@ def read_status(path: Path, errors: list[str]) -> dict[str, str]:
     return fields
 
 
+def read_learner_profile(path: Path, errors: list[str]) -> dict[str, str]:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        errors.append(f"{path}: cannot read learner profile: {exc}")
+        return {}
+
+    fields: dict[str, str] = {}
+    for line in text.splitlines():
+        match = re.match(r"^-\s+([^:]+):\s*(.*)$", line)
+        if match:
+            fields[match.group(1).strip()] = match.group(2).strip()
+
+    # Workspaces created before questioning styles existed are friendly by
+    # default. This preserves compatibility while validating any explicit
+    # selection.
+    tutor_style = fields.get("Fixed tutor style") or "friendly"
+    fields["Fixed tutor style"] = tutor_style
+    if tutor_style not in TUTOR_STYLES:
+        errors.append(
+            f"{path}: invalid Fixed tutor style {tutor_style!r}; "
+            f"expected one of {', '.join(sorted(TUTOR_STYLES))}"
+        )
+    return fields
+
+
 def split_ids(value: str) -> list[str]:
     return [part.strip() for part in value.split(";") if part.strip()]
 
@@ -206,7 +233,18 @@ def validate_template(root: Path, errors: list[str]) -> dict[str, object]:
         if (root / "learner/progress.csv").is_file()
         else []
     )
-    return {"status": status, "sources": sources, "nodes": nodes, "progress": progress}
+    profile = (
+        read_learner_profile(root / "learner/learner-profile.md", errors)
+        if (root / "learner/learner-profile.md").is_file()
+        else {}
+    )
+    return {
+        "status": status,
+        "sources": sources,
+        "nodes": nodes,
+        "progress": progress,
+        "profile": profile,
+    }
 
 
 def populated_materials(directory: Path) -> list[Path]:

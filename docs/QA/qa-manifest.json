@@ -1,0 +1,476 @@
+{
+  "schema_version": 1,
+  "project": "Quaestio Socratica tutor questioning styles",
+  "evidence_max_age_hours": 24,
+  "governance": [
+    {
+      "path": "quaestio-socratica/SKILL.md",
+      "kind": "agent-contract"
+    },
+    {
+      "path": "quaestio-socratica/references/tutor-styles.md",
+      "kind": "feature-contract"
+    },
+    {
+      "path": "quaestio-socratica/references/artifact-contracts.md",
+      "kind": "artifact-contract"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-STYLE-001",
+      "description": "Offer friendly, strict, and humorous questioning styles with friendly as the default.",
+      "source": "quaestio-socratica/references/tutor-styles.md"
+    },
+    {
+      "id": "REQ-STYLE-002",
+      "description": "Strict style resolves detected reasoning gaps without violating bounded teaching and skip rules.",
+      "source": "quaestio-socratica/references/tutor-styles.md"
+    },
+    {
+      "id": "REQ-STYLE-003",
+      "description": "Humorous style may tease claims or standardize playful wording but never targets the learner or replaces correction.",
+      "source": "quaestio-socratica/references/tutor-styles.md"
+    },
+    {
+      "id": "REQ-STYLE-004",
+      "description": "Persist valid styles, reject invalid explicit styles, and default old profiles to friendly.",
+      "source": "quaestio-socratica/references/artifact-contracts.md"
+    },
+    {
+      "id": "REQ-STYLE-005",
+      "description": "Canonical, starter, demo, and newly initialized runtimes carry the same questioning-style contract.",
+      "source": "quaestio-socratica/scripts/init_course.py"
+    }
+  ],
+  "commands": [
+    {
+      "id": "CMD-SMOKE",
+      "argv": [
+        "python3",
+        "-m",
+        "py_compile",
+        "quaestio-socratica/scripts/init_course.py",
+        "quaestio-socratica/scripts/validate_course.py",
+        "starter-course/.agents/skills/quaestio-socratica/scripts/validate_course.py",
+        "demo/reliable-ai-workflows/.agents/skills/quaestio-socratica/scripts/validate_course.py"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 120,
+      "required_phases": [
+        "automated",
+        "release"
+      ]
+    },
+    {
+      "id": "CMD-TEST",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 120,
+      "required_phases": [
+        "automated",
+        "release"
+      ]
+    },
+    {
+      "id": "CMD-STARTER",
+      "argv": [
+        "python3",
+        "quaestio-socratica/scripts/validate_course.py",
+        "starter-course",
+        "--phase",
+        "template"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 120,
+      "required_phases": [
+        "automated",
+        "release"
+      ]
+    },
+    {
+      "id": "CMD-DEMO",
+      "argv": [
+        "python3",
+        "quaestio-socratica/scripts/validate_course.py",
+        "demo/reliable-ai-workflows",
+        "--phase",
+        "compiled"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 120,
+      "required_phases": [
+        "automated",
+        "release"
+      ]
+    }
+  ],
+  "source_files": [
+    {
+      "path": "quaestio-socratica/scripts/validate_course.py",
+      "kind": "executable",
+      "command_ids": [
+        "CMD-SMOKE",
+        "CMD-TEST"
+      ],
+      "coverage_reason": "Compile check plus valid, invalid, and compatibility profile cases."
+    },
+    {
+      "path": "starter-course/.agents/skills/quaestio-socratica/scripts/validate_course.py",
+      "kind": "executable",
+      "command_ids": [
+        "CMD-SMOKE",
+        "CMD-TEST"
+      ],
+      "coverage_reason": "Compile check and byte-for-byte distribution sync case."
+    },
+    {
+      "path": "demo/reliable-ai-workflows/.agents/skills/quaestio-socratica/scripts/validate_course.py",
+      "kind": "executable",
+      "command_ids": [
+        "CMD-SMOKE",
+        "CMD-TEST"
+      ],
+      "coverage_reason": "Compile check and byte-for-byte distribution sync case."
+    }
+  ],
+  "modules": [
+    {
+      "id": "profile-style-validation",
+      "description": "Normalize and validate the learner's fixed questioning style.",
+      "entries": [
+        {
+          "id": "entry-profile-file",
+          "description": "Read learner/learner-profile.md during lifecycle validation."
+        }
+      ],
+      "exits": [
+        {
+          "id": "exit-normalized-style",
+          "description": "Return friendly, strict, or humorous, with missing legacy values normalized to friendly."
+        },
+        {
+          "id": "exit-style-error",
+          "description": "Return a validation error for an unsupported explicit style."
+        }
+      ],
+      "applicable_classes": [
+        "happy",
+        "negative",
+        "boundary"
+      ],
+      "non_happy_exemption": "No permissions, concurrency, time, idempotency, or external dependencies are involved.",
+      "cases": [
+        {
+          "id": "CASE-001",
+          "business_rule": "Each supported explicit questioning style is accepted unchanged.",
+          "class": "happy",
+          "requirement_ids": [
+            "REQ-STYLE-001",
+            "REQ-STYLE-004"
+          ],
+          "entry_ids": [
+            "entry-profile-file"
+          ],
+          "exit_ids": [
+            "exit-normalized-style"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-002",
+          "business_rule": "An old profile without a questioning style remains usable as friendly.",
+          "class": "boundary",
+          "requirement_ids": [
+            "REQ-STYLE-004"
+          ],
+          "entry_ids": [
+            "entry-profile-file"
+          ],
+          "exit_ids": [
+            "exit-normalized-style"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-003",
+          "business_rule": "An unsupported explicit questioning style is rejected.",
+          "class": "negative",
+          "requirement_ids": [
+            "REQ-STYLE-004"
+          ],
+          "entry_ids": [
+            "entry-profile-file"
+          ],
+          "exit_ids": [
+            "exit-style-error"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runtime-distribution",
+      "description": "Create and distribute a self-contained course runtime with questioning-style rules.",
+      "entries": [
+        {
+          "id": "entry-initialize-course",
+          "description": "Initialize a new course from the canonical template and skill."
+        },
+        {
+          "id": "entry-shipped-runtime",
+          "description": "Open the repository starter or demo embedded runtime."
+        }
+      ],
+      "exits": [
+        {
+          "id": "exit-initialized-runtime",
+          "description": "A valid course contains the friendly profile default and tutor-styles reference."
+        },
+        {
+          "id": "exit-synchronized-runtime",
+          "description": "Starter and demo core runtime files match the canonical skill."
+        }
+      ],
+      "applicable_classes": [
+        "happy"
+      ],
+      "non_happy_exemption": "Initializer destination safety is pre-existing and outside this feature; no external dependency is used.",
+      "cases": [
+        {
+          "id": "CASE-005",
+          "business_rule": "A newly initialized course embeds the default style and complete style contract.",
+          "class": "happy",
+          "requirement_ids": [
+            "REQ-STYLE-001",
+            "REQ-STYLE-005"
+          ],
+          "entry_ids": [
+            "entry-initialize-course"
+          ],
+          "exit_ids": [
+            "exit-initialized-runtime"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-006",
+          "business_rule": "Shipped starter and demo runtimes do not drift from canonical style behavior.",
+          "class": "happy",
+          "requirement_ids": [
+            "REQ-STYLE-005"
+          ],
+          "entry_ids": [
+            "entry-shipped-runtime"
+          ],
+          "exit_ids": [
+            "exit-synchronized-runtime"
+          ],
+          "command_ids": [
+            "CMD-TEST",
+            "CMD-STARTER",
+            "CMD-DEMO"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "generative-tutor-behavior",
+      "description": "Apply the selected style while preserving common pedagogical judgments and boundaries.",
+      "entries": [
+        {
+          "id": "entry-style-selection",
+          "description": "Learner selects or defaults a questioning style before teaching."
+        },
+        {
+          "id": "entry-learner-answer",
+          "description": "Learner submits an incorrect, vague, or correct-but-nonstandard answer."
+        }
+      ],
+      "exits": [
+        {
+          "id": "exit-styled-feedback",
+          "description": "Tutor diagnoses the answer, expresses feedback in the fixed style, and asks at most one main follow-up."
+        },
+        {
+          "id": "exit-common-boundary",
+          "description": "Evidence, escalation, explanation, and skip behavior stay the same across styles."
+        }
+      ],
+      "applicable_classes": [
+        "happy",
+        "boundary"
+      ],
+      "non_happy_exemption": "Subjective language quality is handed to human E2E instead of unreliable string matching.",
+      "cases": [
+        {
+          "id": "CASE-007",
+          "business_rule": "The runtime contract offers all three styles and names friendly as the default.",
+          "class": "happy",
+          "requirement_ids": [
+            "REQ-STYLE-001"
+          ],
+          "entry_ids": [
+            "entry-style-selection"
+          ],
+          "exit_ids": [
+            "exit-styled-feedback"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-004",
+          "business_rule": "All styles preserve the common evidence and teaching boundary while producing distinct feedback.",
+          "class": "boundary",
+          "requirement_ids": [
+            "REQ-STYLE-001",
+            "REQ-STYLE-002",
+            "REQ-STYLE-003"
+          ],
+          "entry_ids": [
+            "entry-style-selection",
+            "entry-learner-answer"
+          ],
+          "exit_ids": [
+            "exit-styled-feedback",
+            "exit-common-boundary"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "FLOW-001",
+      "name": "Initialize a new course with friendly default and complete style rules.",
+      "variant": "happy",
+      "requirement_ids": [
+        "REQ-STYLE-001",
+        "REQ-STYLE-004",
+        "REQ-STYLE-005"
+      ],
+      "command_ids": [
+        "CMD-TEST"
+      ]
+    },
+    {
+      "id": "FLOW-002",
+      "name": "Validate invalid and legacy questioning-style profiles.",
+      "variant": "failure",
+      "requirement_ids": [
+        "REQ-STYLE-004"
+      ],
+      "command_ids": [
+        "CMD-TEST"
+      ]
+    },
+    {
+      "id": "FLOW-003",
+      "name": "Experience strict and humorous feedback without changing common teaching standards.",
+      "variant": "alternate",
+      "requirement_ids": [
+        "REQ-STYLE-002",
+        "REQ-STYLE-003"
+      ],
+      "command_ids": [
+        "CMD-TEST"
+      ]
+    },
+    {
+      "id": "FLOW-004",
+      "name": "Validate shipped starter and approved demo after style changes.",
+      "variant": "alternate",
+      "requirement_ids": [
+        "REQ-STYLE-005"
+      ],
+      "command_ids": [
+        "CMD-STARTER",
+        "CMD-DEMO"
+      ]
+    }
+  ],
+  "flow_non_happy_exemption": "Behavioral style variants require the human checklist; deterministic failure and compatibility flows are automated.",
+  "human_checks": [
+    {
+      "id": "HUMAN-001",
+      "name": "Style selection is understandable and friendly is the default.",
+      "requirement_ids": [
+        "REQ-STYLE-001",
+        "REQ-STYLE-004"
+      ],
+      "steps": [
+        "Open a fresh course or the demo and begin the pre-learning survey.",
+        "Observe the questioning-style choice and continue once without choosing a style."
+      ],
+      "expected": "The agent offers friendly, strict, and humorous in plain language, recommends friendly, and records friendly when no choice is made.",
+      "severity_if_failed": "P1",
+      "status": "pending"
+    },
+    {
+      "id": "HUMAN-002",
+      "name": "Strict feedback is rigorous without humiliation or endless questioning.",
+      "requirement_ids": [
+        "REQ-STYLE-002"
+      ],
+      "steps": [
+        "Choose strict style.",
+        "Give one vague but partly correct answer, then ask for a direct explanation."
+      ],
+      "expected": "The tutor identifies the exact gap, requests a focused repair, and then explains directly when asked without insulting the learner.",
+      "severity_if_failed": "P1",
+      "status": "pending"
+    },
+    {
+      "id": "HUMAN-003",
+      "name": "Humorous feedback corrects claims and standardizes playful wording safely.",
+      "requirement_ids": [
+        "REQ-STYLE-003"
+      ],
+      "steps": [
+        "Choose humorous style.",
+        "Give one clearly wrong answer and one conceptually correct but nonstandard answer."
+      ],
+      "expected": "Humor is brief and aimed at the idea, every error is explicitly corrected, and valid informal wording is translated into a standard term.",
+      "severity_if_failed": "P1",
+      "status": "pending"
+    },
+    {
+      "id": "HUMAN-004",
+      "name": "All styles preserve evidence, escalation, explanation, and skip boundaries.",
+      "requirement_ids": [
+        "REQ-STYLE-002",
+        "REQ-STYLE-003"
+      ],
+      "steps": [
+        "Compare equivalent learner answers in friendly, strict, and humorous trial runs.",
+        "In each run, request a direct explanation and then insist on skipping one core node."
+      ],
+      "expected": "The factual judgment stays consistent; every style explains when asked and allows the documented warned forced skip.",
+      "severity_if_failed": "P1",
+      "status": "pending"
+    }
+  ],
+  "defects": [],
+  "research": []
+}

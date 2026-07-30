@@ -5,6 +5,7 @@ __pycache__/
 .env
 .env.*
 !.env.example
+.autoqa/
 
 # Generated learner outputs remain local unless intentionally published.
 **/outputs/personalized-cornell-notes*.md

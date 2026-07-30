@@ -1,6 +1,6 @@
 # Tutor modes
 
-Both modes use the same frozen course, learner state, checkpoint rules, and source discipline. Style never changes what counts as evidence.
+Both modes use the same frozen course, learner state, checkpoint rules, and source discipline. Tutor mode defines the learning frame and cast; [questioning style](tutor-styles.md) separately defines how feedback and follow-up sound. Neither changes what counts as evidence.
 
 ## Course mentor (`course-mentor`)
 
@@ -32,7 +32,7 @@ Narrative beats must introduce, exercise, or connect knowledge. Skip scenes that
 
 ## Fixed boundaries
 
-- Fix mode and tutors before the first teaching node.
+- Fix mode, tutors, and questioning style before the first teaching node.
 - Use original characters by default. Do not impersonate a living expert or copy a copyrighted character’s exact voice.
 - Keep emotional continuity course-bounded and non-numeric.
 - Prohibit flirting as a reward, romance progression, jealousy engineered for attachment, numerical affinity, loot, streak pressure, and manipulative guilt.

@@ -115,6 +115,6 @@ Set lifecycle to `awaiting_approval`. Present:
 - source and augmentation summary;
 - known disputes, omissions, or weak evidence;
 - required dependencies;
-- tutor-mode choices.
+- tutor-mode and questioning-style choices.
 
 Wait for explicit approval. Then record approver, date, and version; set lifecycle to `approved`. The course may be edited by a human at any time, but the agent must not silently recompile an approved course.

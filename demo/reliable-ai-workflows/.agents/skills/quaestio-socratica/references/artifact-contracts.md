@@ -50,7 +50,9 @@ List fixed checkpoints, node IDs, expected time, outcomes, transitions, and comp
 
 ### `learner/learner-profile.md`
 
-Record only useful learning context: role, tasks, prior knowledge, tools, transfer goal, time, depth preferences, language, fixed tutor mode, and tutor selection.
+Record only useful learning context: role, tasks, prior knowledge, tools, transfer goal, time, depth preferences, language, fixed tutor mode, tutor selection, and fixed questioning style.
+
+Use `Fixed tutor style`: `friendly`, `strict`, or `humorous`. `friendly` is the default. When reading an older learner profile without this field, treat it as `friendly` and add the field at the next safe profile update.
 
 ### `learner/personalized-route.md`
 

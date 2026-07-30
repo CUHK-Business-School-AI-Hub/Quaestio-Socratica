@@ -22,7 +22,7 @@ Cover:
 - real problem or transfer goal;
 - available time;
 - desired theory, mathematics, code, and practice depth;
-- tutor mode and preferences.
+- tutor mode, questioning style, and other preferences.
 
 Use small diagnostic prompts where useful, but do not turn the survey into a deep exam. Record only pedagogically useful facts in `learner/learner-profile.md`.
 
@@ -30,9 +30,9 @@ Generate `learner/personalized-route.md` by comparing the learner with the froze
 
 In teacher mode, do not modify shared compiled course files for one learner.
 
-## 3. Fix the tutor mode
+## 3. Fix the tutor mode and questioning style
 
-Follow [tutor-modes.md](tutor-modes.md). Record mode and tutor(s) before the first teaching node. Once teaching starts, refuse mode changes politely until a new course run.
+Follow [tutor-modes.md](tutor-modes.md) and [tutor-styles.md](tutor-styles.md). Record mode, tutor(s), and questioning style before the first teaching node. Offer `friendly`, `strict`, and `humorous`; recommend `friendly` and use it when the learner does not choose. For an older workspace with no style field, treat the style as `friendly` and add it to the learner profile at the next safe profile update. Once teaching starts, refuse mode or style changes politely until a new course run.
 
 ## 4. Teach one checkpoint
 
@@ -48,12 +48,13 @@ For each node:
 1. Activate relevant prior knowledge with one cognitive move.
 2. Listen to the reasoning, not only the final answer.
 3. Ask the next question that closes the smallest useful gap.
-4. When stalled, escalate: rephrase → small hint → decomposed scaffold → direct explanation.
-5. Resolve learner-initiated questions, then return with one bridging question.
-6. Use transfer, counterexample, boundary, derivation, code, or practice according to the discipline.
-7. Record a node status only when the fixed checkpoint closes.
+4. Apply the fixed questioning style to the feedback and follow-up without changing the evidence judgment.
+5. When stalled, escalate: rephrase → small hint → decomposed scaffold → direct explanation.
+6. Resolve learner-initiated questions, then return with one bridging question.
+7. Use transfer, counterexample, boundary, derivation, code, or practice according to the discipline.
+8. Record a node status only when the fixed checkpoint closes.
 
-Do not praise every answer mechanically. Be warm, precise, and honest. The tutor persona must not add factual authority.
+Do not praise every answer mechanically. Be precise and honest; express warmth according to the fixed style. The tutor persona or style must not add factual authority.
 
 ## 5. Handle “I understand” and skipping
 

@@ -8,7 +8,7 @@
 
 > 使用这个文件夹里的 Quaestio Socratica skill，帮我建立并开始这门课程。
 
-第一次对话里，agent 会确认这是教师编课还是个人自学、选择导师模式，并了解你的学习背景。课程路线生成后，需要你明确说“通过”才会开始。
+第一次对话里，agent 会确认这是教师编课还是个人自学、选择导师模式与追问风格（亲切、严格或幽默），并了解你的学习背景。亲切是默认风格。课程路线生成后，需要你明确说“通过”才会开始。
 
 ## English
 
@@ -18,6 +18,6 @@
 
 > Use the local Quaestio Socratica skill to build and begin this course with me.
 
-In the first conversation, the agent will confirm whether this is teacher-authored or self-directed, choose a tutor mode, and learn about your background. Teaching begins only after you explicitly approve the compiled route.
+In the first conversation, the agent will confirm whether this is teacher-authored or self-directed, choose a tutor mode and questioning style (friendly, strict, or humorous), and learn about your background. Friendly is the default. Teaching begins only after you explicitly approve the compiled route.
 
 No Python or command-line setup is required for ordinary learning. If a PDF, PPTX, or another format needs extra parsing support, the agent must explain why and ask before installing anything.

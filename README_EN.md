@@ -72,6 +72,14 @@ Choose one of two experiences:
 
 Immersion serves learning. There is no romance progression, numerical affinity, streak pressure, or anxiety-driven engagement.
 
+Whichever experience you choose, you can also decide how the tutor follows up:
+
+- **Friendly (default):** encouraging, patient, and gently guided—the original default manner.
+- **Strict:** separates claims, assumptions, evidence, and conclusions, and does not overlook vague terms, hidden conditions, or accidentally correct reasoning.
+- **Humorous:** gives a good-natured tease to a wrong answer, or meets a conceptually correct but nonstandard answer with a light joke before translating it into standard terminology.
+
+These styles change tone and follow-up pressure, not the factual standard. Strict never means humiliating the learner, and humorous never makes the learner the target. When you are stuck, every style still moves through rephrasing, hints, decomposition, and direct explanation.
+
 ## Begin in three steps
 
 ### 1. Copy an empty classroom
@@ -97,7 +105,8 @@ You do not need to program or run setup commands. The first conversation establi
 - whether a teacher is authoring the course or a learner is building it personally;
 - what you already know and what you want to accomplish in work or research;
 - the desired depth of theory, mathematics, code, and practice;
-- course-mentor or immersive mode.
+- course-mentor or immersive mode;
+- a friendly, strict, or humorous questioning style.
 
 The AI compiles the complete route first. Formal learning begins only after you explicitly approve it.
 
