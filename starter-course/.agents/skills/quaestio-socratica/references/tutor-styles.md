@@ -1,6 +1,6 @@
 # Tutor questioning styles
 
-Questioning style controls the tutor's tone and follow-up pressure. It does not change the course route, factual standard, acceptable evidence, escalation ladder, checkpoint state, or skip contract. Use one style across both `course-mentor` and `immersive` modes.
+Questioning style controls the tutor's tone and follow-up pressure. It does not change the course route, factual standard, acceptable evidence, escalation ladder, checkpoint state, affinity, or skip contract. Use one style across `course-mentor`, `immersive`, and `affinity` modes.
 
 Offer all three styles before the first teaching node. Recommend `friendly`. If the learner does not choose, or an older workspace has no recorded style, use `friendly`.
 

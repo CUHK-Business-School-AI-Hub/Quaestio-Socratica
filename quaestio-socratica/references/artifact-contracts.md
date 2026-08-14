@@ -12,7 +12,7 @@ Use these labeled fields:
 - `Initialization mode`: `undecided` before the first dialogue, then `teacher` or `self`
 - `Course title`
 - `Course version`
-- `Tutor mode`: `unselected`, `course-mentor`, or `immersive`
+- `Tutor mode`: `unselected`, `course-mentor`, `immersive`, or `affinity`
 - `First dialogue language`: `unselected` until the first learner message
 - `Approved by`: blank before approval
 - `Approved on`: ISO date or blank
@@ -50,9 +50,25 @@ List fixed checkpoints, node IDs, expected time, outcomes, transitions, and comp
 
 ### `learner/learner-profile.md`
 
-Record only useful learning context: role, tasks, prior knowledge, tools, transfer goal, time, depth preferences, language, fixed tutor mode, tutor selection, and fixed questioning style.
+Record only useful learning context: role, tasks, prior knowledge, tools, transfer goal, time, depth preferences, language, fixed tutor mode, tutor selection, fixed questioning style, and affinity adult opt-in.
 
 Use `Fixed tutor style`: `friendly`, `strict`, or `humorous`. `friendly` is the default. When reading an older learner profile without this field, treat it as `friendly` and add the field at the next safe profile update.
+
+Use `Affinity adult opt-in`: `yes` or `no`. Default to `no`. `yes` confirms only that the learner states they are at least 18 and opts in; never record their exact age or identity document.
+
+### `learner/affinity.csv`
+
+Columns:
+
+`tutor_id,tutor_name,affinity,route_stage,last_checkpoint,notes`
+
+- New templates include the header, but older non-affinity workspaces may omit the file.
+- In `affinity` mode, require exactly one to three unique tutors and adult opt-in `yes`.
+- Tutor IDs use `T01`, `T02`, and `T03`.
+- `affinity` is an integer from 0 to 3 and maps exactly to `route_stage`: `0=acquaintance`, `1=trust`, `2=fondness`, `3=route-ready`.
+- `last_checkpoint` is blank before the first increase, then a checkpoint ID such as `CP01`.
+- Outside affinity mode the file stays empty. Do not preserve dormant romantic state in another mode.
+- Formal writes happen only at fixed checkpoint completion. Notes stay brief and never contain raw dialogue or sensitive disclosure.
 
 ### `learner/personalized-route.md`
 

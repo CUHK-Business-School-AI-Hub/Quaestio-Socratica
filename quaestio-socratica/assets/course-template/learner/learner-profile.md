@@ -16,3 +16,4 @@ Complete after the two- or three-round pre-learning survey.
 - Fixed tutor mode:
 - Tutor selection:
 - Fixed tutor style: friendly
+- Affinity adult opt-in: no

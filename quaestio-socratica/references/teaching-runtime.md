@@ -9,6 +9,8 @@ Verify that `course/course-status.md` says `approved` or `learning`. Read:
 - tutor material only for those nodes and their prerequisites;
 - current learner profile, personal route, progress, and callbacks.
 
+When `Tutor mode` is `affinity`, also read the current `learner/affinity.csv` rows. Do not load or invent affinity state in other modes.
+
 Do not load every course file when the current checkpoint is bounded.
 
 ## 2. Run the pre-learning survey
@@ -22,7 +24,8 @@ Cover:
 - real problem or transfer goal;
 - available time;
 - desired theory, mathematics, code, and practice depth;
-- tutor mode, questioning style, and other preferences.
+- tutor mode, questioning style, and other preferences;
+- if affinity mode is requested, explicit adult confirmation and opt-in without collecting the learner's exact age.
 
 Use small diagnostic prompts where useful, but do not turn the survey into a deep exam. Record only pedagogically useful facts in `learner/learner-profile.md`.
 
@@ -32,7 +35,9 @@ In teacher mode, do not modify shared compiled course files for one learner.
 
 ## 3. Fix the tutor mode and questioning style
 
-Follow [tutor-modes.md](tutor-modes.md) and [tutor-styles.md](tutor-styles.md). Record mode, tutor(s), and questioning style before the first teaching node. Offer `friendly`, `strict`, and `humorous`; recommend `friendly` and use it when the learner does not choose. For an older workspace with no style field, treat the style as `friendly` and add it to the learner profile at the next safe profile update. Once teaching starts, refuse mode or style changes politely until a new course run.
+Follow [tutor-modes.md](tutor-modes.md) and [tutor-styles.md](tutor-styles.md). Record mode, tutor(s), and questioning style before the first teaching node. Offer `friendly`, `strict`, and `humorous`; recommend `friendly` and use it when the learner does not choose. For an older workspace with no style field, treat the style as `friendly` and add it to the learner profile at the next safe profile update.
+
+When affinity mode is requested, follow [affinity-mode.md](affinity-mode.md), require explicit adult opt-in, initialize one to three tutors at zero affinity, and explain that learning performance never changes affinity. Once teaching starts, refuse mode or style changes politely until a new course run.
 
 ## 4. Teach one checkpoint
 
@@ -79,6 +84,7 @@ Only after all checkpoint nodes are resolved:
 - write one page or less of cumulative micro-Cornell notes in `learner/checkpoint-notes.md`;
 - record standard-route differences in `learner/personalized-route.md`;
 - append a compact session summary to `learner/session-archive.md`;
+- in affinity mode, optionally run one bounded relationship interlude and update `learner/affinity.csv` according to [affinity-mode.md](affinity-mode.md);
 - name the next checkpoint and offer the fixed exit.
 
 Do not store the raw conversation. Do not formalize partial mid-checkpoint progress; the active conversation is the continuity mechanism.
@@ -98,6 +104,7 @@ When all checkpoints close:
 3. Deduplicate checkpoint notes. Keep the final notes shorter than their accumulated source.
 4. Finalize progress statuses.
 5. Build the offline mindmap with the bundled script.
-6. Set lifecycle to `completed` and validate `--phase final`.
+6. In affinity mode, offer the eligible friendship or light-romance epilogue choices without changing any learning record.
+7. Set lifecycle to `completed` and validate `--phase final`.
 
 Never award a score or certificate unless the course explicitly includes a separately approved assessment contract.

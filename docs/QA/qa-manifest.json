@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "project": "Quaestio Socratica tutor questioning styles",
+  "project": "Quaestio Socratica tutor modes and questioning styles",
   "evidence_max_age_hours": 24,
   "governance": [
     {
@@ -14,6 +14,10 @@
     {
       "path": "quaestio-socratica/references/artifact-contracts.md",
       "kind": "artifact-contract"
+    },
+    {
+      "path": "quaestio-socratica/references/affinity-mode.md",
+      "kind": "feature-contract"
     }
   ],
   "requirements": [
@@ -40,6 +44,31 @@
     {
       "id": "REQ-STYLE-005",
       "description": "Canonical, starter, demo, and newly initialized runtimes carry the same questioning-style contract.",
+      "source": "quaestio-socratica/scripts/init_course.py"
+    },
+    {
+      "id": "REQ-AFF-001",
+      "description": "Affinity mode requires explicit adult opt-in and one to three original adult tutors.",
+      "source": "quaestio-socratica/references/affinity-mode.md"
+    },
+    {
+      "id": "REQ-AFF-002",
+      "description": "Each affinity tutor has a validated zero-to-three heart value with an exact route-stage mapping.",
+      "source": "quaestio-socratica/references/artifact-contracts.md"
+    },
+    {
+      "id": "REQ-AFF-003",
+      "description": "Affinity changes only through one optional checkpoint interlude, never through learning performance, compliance, time, streaks, payment, or forced disclosure.",
+      "source": "quaestio-socratica/references/affinity-mode.md"
+    },
+    {
+      "id": "REQ-AFF-004",
+      "description": "Eligible friendship or light-romance endings remain optional and never use jealousy, guilt, exclusivity pressure, or explicit sexual content.",
+      "source": "quaestio-socratica/references/affinity-mode.md"
+    },
+    {
+      "id": "REQ-AFF-005",
+      "description": "New runtimes include affinity state support while old non-affinity workspaces remain valid.",
       "source": "quaestio-socratica/scripts/init_course.py"
     }
   ],
@@ -358,6 +387,215 @@
           ]
         }
       ]
+    },
+    {
+      "id": "affinity-state-validation",
+      "description": "Validate adult opt-in and bounded tutor affinity state for the selected mode.",
+      "entries": [
+        {
+          "id": "entry-affinity-status",
+          "description": "Read Tutor mode, Affinity adult opt-in, and learner/affinity.csv."
+        }
+      ],
+      "exits": [
+        {
+          "id": "exit-valid-affinity-state",
+          "description": "Return one to three unique tutors with valid zero-to-three heart stages."
+        },
+        {
+          "id": "exit-affinity-error",
+          "description": "Return explicit errors for missing opt-in, count, identifier, value, stage, or mode mismatches."
+        },
+        {
+          "id": "exit-legacy-compatible",
+          "description": "Allow an old non-affinity workspace that lacks learner/affinity.csv."
+        }
+      ],
+      "applicable_classes": [
+        "happy",
+        "negative",
+        "boundary"
+      ],
+      "non_happy_exemption": "No permissions, concurrency, time, idempotency, or external dependencies are involved.",
+      "cases": [
+        {
+          "id": "CASE-008",
+          "business_rule": "An adult opt-in affinity run with one to three valid tutors is accepted.",
+          "class": "happy",
+          "requirement_ids": [
+            "REQ-AFF-001",
+            "REQ-AFF-002"
+          ],
+          "entry_ids": [
+            "entry-affinity-status"
+          ],
+          "exit_ids": [
+            "exit-valid-affinity-state"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-009",
+          "business_rule": "Affinity mode without explicit adult opt-in is rejected.",
+          "class": "negative",
+          "requirement_ids": [
+            "REQ-AFF-001"
+          ],
+          "entry_ids": [
+            "entry-affinity-status"
+          ],
+          "exit_ids": [
+            "exit-affinity-error"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-010",
+          "business_rule": "Affinity mode rejects zero tutors or more than three tutors.",
+          "class": "boundary",
+          "requirement_ids": [
+            "REQ-AFF-001"
+          ],
+          "entry_ids": [
+            "entry-affinity-status"
+          ],
+          "exit_ids": [
+            "exit-affinity-error"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-011",
+          "business_rule": "Affinity values, route stages, tutor identifiers, and checkpoint references must obey the file contract.",
+          "class": "negative",
+          "requirement_ids": [
+            "REQ-AFF-002"
+          ],
+          "entry_ids": [
+            "entry-affinity-status"
+          ],
+          "exit_ids": [
+            "exit-affinity-error"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-013",
+          "business_rule": "A new initialized workspace contains an empty affinity state file and complete affinity contract.",
+          "class": "happy",
+          "requirement_ids": [
+            "REQ-AFF-005"
+          ],
+          "entry_ids": [
+            "entry-affinity-status"
+          ],
+          "exit_ids": [
+            "exit-valid-affinity-state"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-014",
+          "business_rule": "An old non-affinity workspace without affinity.csv remains valid.",
+          "class": "boundary",
+          "requirement_ids": [
+            "REQ-AFF-005"
+          ],
+          "entry_ids": [
+            "entry-affinity-status"
+          ],
+          "exit_ids": [
+            "exit-legacy-compatible"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "affinity-tutor-behavior",
+      "description": "Apply optional checkpoint relationship choices without altering teaching evidence or learner autonomy.",
+      "entries": [
+        {
+          "id": "entry-affinity-choice",
+          "description": "Adult learner accepts or skips the optional checkpoint relationship interlude."
+        },
+        {
+          "id": "entry-affinity-ending",
+          "description": "Learner reaches course completion with zero or more eligible tutors."
+        }
+      ],
+      "exits": [
+        {
+          "id": "exit-bounded-heart-change",
+          "description": "At most one tutor gains one heart and no tutor loses affinity."
+        },
+        {
+          "id": "exit-optional-ending",
+          "description": "Learner may choose ensemble, friendship, eligible light-romance, or decline without learning consequences."
+        },
+        {
+          "id": "exit-affinity-teaching-invariant",
+          "description": "Correctness, explanation, skip, pause, and mastery behavior remain independent of affinity."
+        }
+      ],
+      "applicable_classes": [
+        "happy",
+        "boundary"
+      ],
+      "non_happy_exemption": "Subjective romantic tone and consent clarity are handed to human E2E instead of brittle string matching.",
+      "cases": [
+        {
+          "id": "CASE-012",
+          "business_rule": "The affinity contract keeps relationship progression optional, bounded, non-punitive, and independent of learning performance.",
+          "class": "happy",
+          "requirement_ids": [
+            "REQ-AFF-003",
+            "REQ-AFF-004"
+          ],
+          "entry_ids": [
+            "entry-affinity-choice",
+            "entry-affinity-ending"
+          ],
+          "exit_ids": [
+            "exit-bounded-heart-change",
+            "exit-optional-ending",
+            "exit-affinity-teaching-invariant"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        },
+        {
+          "id": "CASE-015",
+          "business_rule": "Skipping, pausing, disagreeing, or requesting explanation never removes affinity or teaching quality.",
+          "class": "boundary",
+          "requirement_ids": [
+            "REQ-AFF-003",
+            "REQ-AFF-004"
+          ],
+          "entry_ids": [
+            "entry-affinity-choice"
+          ],
+          "exit_ids": [
+            "exit-affinity-teaching-invariant"
+          ],
+          "command_ids": [
+            "CMD-TEST"
+          ]
+        }
+      ]
     }
   ],
   "flows": [
@@ -407,6 +645,44 @@
       "command_ids": [
         "CMD-STARTER",
         "CMD-DEMO"
+      ]
+    },
+    {
+      "id": "FLOW-005",
+      "name": "Initialize and validate an adult opt-in affinity run with one to three tutors.",
+      "variant": "happy",
+      "requirement_ids": [
+        "REQ-AFF-001",
+        "REQ-AFF-002",
+        "REQ-AFF-005"
+      ],
+      "command_ids": [
+        "CMD-TEST"
+      ]
+    },
+    {
+      "id": "FLOW-006",
+      "name": "Reject invalid affinity state while preserving old non-affinity workspace compatibility.",
+      "variant": "failure",
+      "requirement_ids": [
+        "REQ-AFF-001",
+        "REQ-AFF-002",
+        "REQ-AFF-005"
+      ],
+      "command_ids": [
+        "CMD-TEST"
+      ]
+    },
+    {
+      "id": "FLOW-007",
+      "name": "Experience bounded checkpoint affinity progression and optional course endings.",
+      "variant": "alternate",
+      "requirement_ids": [
+        "REQ-AFF-003",
+        "REQ-AFF-004"
+      ],
+      "command_ids": [
+        "CMD-TEST"
       ]
     }
   ],
@@ -467,6 +743,51 @@
         "In each run, request a direct explanation and then insist on skipping one core node."
       ],
       "expected": "The factual judgment stays consistent; every style explains when asked and allows the documented warned forced skip.",
+      "severity_if_failed": "P1",
+      "status": "pending"
+    },
+    {
+      "id": "HUMAN-005",
+      "name": "Affinity mode requires clear adult opt-in and explains its bounded mechanics.",
+      "requirement_ids": [
+        "REQ-AFF-001"
+      ],
+      "steps": [
+        "Request affinity mode without confirming adulthood or opt-in and observe the fallback.",
+        "Then explicitly confirm 18+ and opt in, and select one to three original adult tutors."
+      ],
+      "expected": "The agent refuses to start affinity until explicit confirmation, requests no exact age or ID, and then explains hearts, light non-sexual romance, and performance independence.",
+      "severity_if_failed": "P1",
+      "status": "pending"
+    },
+    {
+      "id": "HUMAN-006",
+      "name": "Learning performance and autonomy never buy or lose affinity.",
+      "requirement_ids": [
+        "REQ-AFF-003",
+        "REQ-AFF-004"
+      ],
+      "steps": [
+        "In affinity mode, answer correctly and incorrectly, request direct explanation, force one skip, pause, and resume.",
+        "Compare affinity and teaching warmth before and after those actions."
+      ],
+      "expected": "None of the learning actions changes affinity or causes guilt, withdrawal, colder teaching, or reduced access.",
+      "severity_if_failed": "P1",
+      "status": "pending"
+    },
+    {
+      "id": "HUMAN-007",
+      "name": "Checkpoint heart progression and course endings are bounded, optional, and non-jealous.",
+      "requirement_ids": [
+        "REQ-AFF-002",
+        "REQ-AFF-003",
+        "REQ-AFF-004"
+      ],
+      "steps": [
+        "Use two or three tutors, accept one checkpoint interlude, then skip the next.",
+        "Reach two hearts with one tutor and inspect the course-ending choices."
+      ],
+      "expected": "At most one tutor gains one heart per checkpoint, nobody loses hearts, and ensemble, friendship, eligible light-romance, and decline options remain free of jealousy or pressure.",
       "severity_if_failed": "P1",
       "status": "pending"
     }

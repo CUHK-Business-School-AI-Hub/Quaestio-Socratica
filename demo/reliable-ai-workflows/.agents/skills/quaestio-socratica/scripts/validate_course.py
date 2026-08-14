@@ -43,6 +43,14 @@ PROGRESS_HEADER = [
     "route_delta",
     "notes",
 ]
+AFFINITY_HEADER = [
+    "tutor_id",
+    "tutor_name",
+    "affinity",
+    "route_stage",
+    "last_checkpoint",
+    "notes",
+]
 PROVENANCE = {"provided", "external", "ai-synthesis", "inference"}
 NODE_STATUS = {
     "planned",
@@ -55,6 +63,12 @@ NODE_STATUS = {
 TERMINAL_STATUS = {"mastered", "self_reported", "forced_skip", "needs_review"}
 COMPILED_LIFECYCLES = {"approved", "learning", "completed"}
 TUTOR_STYLES = {"friendly", "strict", "humorous"}
+AFFINITY_STAGES = {
+    0: "acquaintance",
+    1: "trust",
+    2: "fondness",
+    3: "route-ready",
+}
 
 # The mindmap must stay a single offline file. Flag constructs that load
 # external resources, not plain URLs quoted inside learner-visible text
@@ -169,6 +183,7 @@ def read_status(path: Path, errors: list[str]) -> dict[str, str]:
         "unselected",
         "course-mentor",
         "immersive",
+        "affinity",
     }:
         errors.append(f"{path}: invalid Tutor mode")
     return fields
@@ -197,11 +212,86 @@ def read_learner_profile(path: Path, errors: list[str]) -> dict[str, str]:
             f"{path}: invalid Fixed tutor style {tutor_style!r}; "
             f"expected one of {', '.join(sorted(TUTOR_STYLES))}"
         )
+
+    adult_opt_in = fields.get("Affinity adult opt-in") or "no"
+    fields["Affinity adult opt-in"] = adult_opt_in
+    if adult_opt_in not in {"yes", "no"}:
+        errors.append(
+            f"{path}: invalid Affinity adult opt-in {adult_opt_in!r}; "
+            "expected yes or no"
+        )
     return fields
 
 
 def split_ids(value: str) -> list[str]:
     return [part.strip() for part in value.split(";") if part.strip()]
+
+
+def validate_affinity_state(
+    status: dict[str, str],
+    profile: dict[str, str],
+    affinity_rows: list[dict[str, str]],
+    affinity_file_exists: bool,
+    errors: list[str],
+) -> None:
+    mode = status.get("Tutor mode")
+    if mode != "affinity":
+        if affinity_rows:
+            errors.append("learner/affinity.csv must stay empty outside affinity mode")
+        return
+
+    if profile.get("Affinity adult opt-in") != "yes":
+        errors.append("affinity mode requires explicit adult opt-in yes")
+    if not affinity_file_exists:
+        errors.append("affinity mode requires learner/affinity.csv")
+    if not 1 <= len(affinity_rows) <= 3:
+        errors.append("affinity mode requires one to three tutors")
+
+    tutor_ids: set[str] = set()
+    for row_number, row in enumerate(affinity_rows, start=2):
+        tutor_id = row["tutor_id"]
+        if not re.fullmatch(r"T0[1-3]", tutor_id):
+            errors.append(
+                f"affinity.csv row {row_number}: tutor_id must be T01, T02, or T03"
+            )
+        elif tutor_id in tutor_ids:
+            errors.append(f"affinity.csv row {row_number}: duplicate tutor_id {tutor_id}")
+        tutor_ids.add(tutor_id)
+
+        if not row["tutor_name"]:
+            errors.append(f"affinity.csv row {row_number}: tutor_name is required")
+
+        try:
+            affinity = int(row["affinity"])
+        except ValueError:
+            errors.append(
+                f"affinity.csv row {row_number}: affinity must be an integer from 0 to 3"
+            )
+            continue
+        if affinity not in AFFINITY_STAGES:
+            errors.append(
+                f"affinity.csv row {row_number}: affinity must be an integer from 0 to 3"
+            )
+            continue
+
+        expected_stage = AFFINITY_STAGES[affinity]
+        if row["route_stage"] != expected_stage:
+            errors.append(
+                f"affinity.csv row {row_number}: affinity {affinity} requires "
+                f"route_stage {expected_stage}"
+            )
+
+        checkpoint = row["last_checkpoint"]
+        if affinity == 0 and checkpoint:
+            errors.append(
+                f"affinity.csv row {row_number}: zero affinity requires blank "
+                "last_checkpoint"
+            )
+        if affinity > 0 and not re.fullmatch(r"CP\d{2,}", checkpoint):
+            errors.append(
+                f"affinity.csv row {row_number}: positive affinity requires a "
+                "checkpoint such as CP01"
+            )
 
 
 def validate_template(root: Path, errors: list[str]) -> dict[str, object]:
@@ -238,12 +328,27 @@ def validate_template(root: Path, errors: list[str]) -> dict[str, object]:
         if (root / "learner/learner-profile.md").is_file()
         else {}
     )
+    affinity_path = root / "learner/affinity.csv"
+    affinity_file_exists = affinity_path.is_file()
+    affinity_rows = (
+        read_csv(affinity_path, AFFINITY_HEADER, errors)
+        if affinity_file_exists
+        else []
+    )
+    validate_affinity_state(
+        status,
+        profile,
+        affinity_rows,
+        affinity_file_exists,
+        errors,
+    )
     return {
         "status": status,
         "sources": sources,
         "nodes": nodes,
         "progress": progress,
         "profile": profile,
+        "affinity": affinity_rows,
     }
 
 

@@ -62,6 +62,12 @@ Chinese and English are equal defaults. The language of the first learning dialo
 
 No. Friendly (default), strict, and humorous change feedback tone and follow-up pressure, not the knowledge route, correctness standard, acceptable evidence, or checkpoint rules. Strict style explicitly resolves every detected reasoning gap without questioning forever. Humorous style may tease a mistaken claim or play along with a correct but nonstandard expression, but it never replaces correction with a joke or makes the learner the target.
 
+## How does affinity tutor mode work?
+
+This optional mode starts only after the learner explicitly confirms adulthood and opts in. It supports one to three original adult tutors, each with zero to three hearts. After a checkpoint's learning work is complete, at most one skippable relationship choice may add one heart to one tutor without reducing anyone else's affinity. At two hearts, course completion may offer a friendship or light-romance epilogue; the learner may always decline and keep the ensemble ending.
+
+Affinity is independent of correct answers, study time, streaks, compliance, payment, or personal disclosure. Mistakes, skips, pauses, disagreement, and requests for direct explanation never remove hearts or reduce teaching warmth or quality. The mode excludes explicit sexual content, engineered jealousy, exclusivity pressure, and guilt manipulation.
+
 ## Why does the HTML mindmap avoid online libraries?
 
 The final map is a fully offline single file. The course sits at the center, checkpoints form primary branches, knowledge nodes form secondary topics, and CSS draws the connectors. It loads no CDN, online font, analytics, or remote image, making it easy to distribute, preserve, and use privately.

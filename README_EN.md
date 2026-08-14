@@ -65,12 +65,13 @@ Roughly every two hours, you reach a checkpoint—a save point for completed ide
 
 ## Your tutor can be rigorous—or full of story
 
-Choose one of two experiences:
+Choose one of three experiences:
 
 - **Course mentor:** one original tutor whose manner fits the discipline. A mathematics tutor probes assumptions; a philosophy tutor searches for definitions and counterexamples; a management tutor tests incentives and tradeoffs.
 - **Immersive exploration:** enter an original world with one to three tutors. Solve a mystery, conduct an investigation, or pursue a shared intellectual mission—something closer to a responsive *Sophie's World*.
+- **Affinity tutor mode:** after explicit adult opt-in, join an otome-inspired course story with one to three original adult tutors. Each tutor has zero to three hearts; an optional post-checkpoint choice can add one heart to one tutor, and course completion may offer ensemble, friendship, or eligible light-romance endings.
 
-Immersion serves learning. There is no romance progression, numerical affinity, streak pressure, or anxiety-driven engagement.
+Course-mentor and immersive modes contain no romance progression. Affinity mode permits light, non-sexual flirting and optional romance, but hearts never come from correct answers, study time, streaks, compliance, payment, or forced disclosure. Declining a relationship choice, pausing, or skipping a node never removes affinity or reduces teaching quality.
 
 Whichever experience you choose, you can also decide how the tutor follows up:
 
@@ -105,7 +106,7 @@ You do not need to program or run setup commands. The first conversation establi
 - whether a teacher is authoring the course or a learner is building it personally;
 - what you already know and what you want to accomplish in work or research;
 - the desired depth of theory, mathematics, code, and practice;
-- course-mentor or immersive mode;
+- course-mentor, immersive, or adult opt-in affinity mode;
 - a friendly, strict, or humorous questioning style.
 
 The AI compiles the complete route first. Formal learning begins only after you explicitly approve it.

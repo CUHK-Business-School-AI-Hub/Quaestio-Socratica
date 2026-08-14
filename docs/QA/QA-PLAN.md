@@ -4,9 +4,9 @@
 <!-- autoqa:section:scope -->
 ## Scope
 
-- Release or task: 三种导师追问风格（亲切、严格、幽默）。
-- In scope: 风格定义、默认选择、学习者画像持久化、旧课程兼容、初始化与内嵌技能分发、文档说明、验证器约束。
-- Out of scope and why: 不自动判定生成式导师的“幽默程度”或人类主观感受；这类判断保留给人工 E2E。不改变课程难度、知识路线、证据标准和 checkpoint 状态机。
+- Release or task: 三种导师追问风格，以及成人自愿加入的好感度导师模式。
+- In scope: 风格定义、`affinity` 模式、1–3 位导师、0–3 心状态、成人 opt-in、checkpoint 关系选择、结课 epilogue、旧课程兼容、初始化与内嵌技能分发、文档和验证器。
+- Out of scope and why: 不自动判定生成式导师的“幽默程度”“恋爱感”或人类主观感受；这类判断保留给人工 E2E。不改变课程难度、知识路线、证据标准和 checkpoint 状态机。不加入露骨性内容、付费机制、连续签到或真人导师关系。
 
 <!-- autoqa:section:governance-sources -->
 ## Governance Sources
@@ -17,6 +17,7 @@
 | `quaestio-socratica/SKILL.md` | Hold the teaching contract | 风格不能破坏直接讲解、强制跳过和单步追问边界 |
 | `quaestio-socratica/references/artifact-contracts.md` | Learner profile | 风格值需可持久化且保持旧课程兼容 |
 | `quaestio-socratica/references/tutor-styles.md` | 全文 | 行为、安全边界与统一反馈流程的直接验收依据 |
+| `quaestio-socratica/references/affinity-mode.md` | 全文 | 成人 opt-in、好感状态、推进循环、结局和反操控边界 |
 
 <!-- autoqa:section:risk -->
 ## Risk Assessment
@@ -29,6 +30,10 @@
 | 严格变成羞辱或无休止追问 | 高 | 中 | 契约检查 + HUMAN-002/HUMAN-004 | 是 |
 | 幽默掩盖纠错或嘲讽学习者 | 高 | 中 | 契约检查 + HUMAN-003/HUMAN-004 | 是 |
 | 三种风格改变事实判断 | 高 | 低 | 固定不变量 + HUMAN-004 | 是 |
+| 好感度被答题正确率、服从或学习时长驱动 | 高 | 中 | 状态契约测试 + HUMAN-006 | 是 |
+| 未确认成年或未 opt-in 即进入恋爱叙事 | 高 | 中 | 负向校验 + HUMAN-005 | 是 |
+| 多导师关系制造嫉妒、内疚或排他压力 | 高 | 中 | 契约检查 + HUMAN-007 | 是 |
+| 好感状态损坏、越界或与阶段不一致 | 中 | 中 | CSV 黑盒边界测试 | 否 |
 
 <!-- autoqa:section:best-practice -->
 ## Best-Practice Resolution
@@ -37,7 +42,7 @@
 - Applicable current packs: 无 Active pack。
 - Online research required: 否；本次是标准库 Markdown/字段校验和生成式行为契约，不涉及陌生框架、高风险协议或易变平台规则。
 - Sources and date reviewed: AutoQA 内置测试设计参考，2026-07-30。
-- Assumptions or unresolved uncertainty: 假设风格在首次教学节点前固定，并跨整个 course run 保持一致；生成式表达质量只能由人工体验确认。
+- Assumptions or unresolved uncertainty: 风格和模式在首次教学节点前固定；affinity 仅面向明确确认 18+ 并 opt-in 的学习者；生成式表达与关系叙事质量只能由人工体验确认。
 
 <!-- autoqa:section:environments -->
 ## Environments and Test Data
@@ -60,9 +65,9 @@
 | Gate | Scope | Command or handoff | Exit condition |
 | --- | --- | --- | --- |
 | File smoke | 三份 `validate_course.py` | `python3 -m py_compile ...` | 全部可编译 |
-| Module black box | learner profile 风格解析与模板初始化 | `python3 -m unittest discover -s tests -v` | 合法、非法、兼容和初始化用例通过 |
-| Feature integration | starter、demo、内嵌技能一致性 | unittest + 两个生命周期校验命令 | 所有分发入口行为一致且有效 |
-| Human E2E | 三种导师行为及共同边界 | `docs/QA/HUMAN-E2E.md` | HUMAN-001 至 HUMAN-004 全部通过 |
+| Module black box | learner profile、affinity CSV 与模板初始化 | `python3 -m unittest discover -s tests -v` | 合法、非法、边界、兼容和初始化用例通过 |
+| Feature integration | starter、demo、内嵌技能和新初始化课程 | unittest + 两个生命周期校验命令 | 所有分发入口行为一致且有效 |
+| Human E2E | 三种追问风格、好感推进及共同教学边界 | `docs/QA/HUMAN-E2E.md` | HUMAN-001 至 HUMAN-007 全部通过 |
 
 <!-- autoqa:section:exit-criteria -->
 ## Exit Criteria
@@ -73,4 +78,3 @@
 - [ ] Human E2E is complete for a release claim.
 - [x] No P0 or P1 defect remains open.
 - [x] Residual P2/P3 defects and untested risks are visible.
-
